@@ -1,0 +1,25 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.10.1"}
+        ring/ring-core {:mvn/version "1.8.2"}
+        ring/ring-jetty-adapter {:mvn/version "1.8.2"}}
+ :aliases
+ {:run-m {:main-opts ["-m" "posobin.eb-deployment-test"]}
+  :run-x {:ns-default posobin.eb-deployment-test
+          :exec-fn greet
+          :exec-args {:name "Clojure"}}
+  :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "0.8.3"}
+                       cider/cider-nrepl {:mvn/version "0.25.6"}}
+          :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}
+  :test {:extra-paths ["test"]
+         :extra-deps {org.clojure/test.check {:mvn/version "1.1.0"}}}
+  :runner
+  {:extra-deps {com.cognitect/test-runner
+                {:git/url "https://github.com/cognitect-labs/test-runner"
+                 :sha "b6b3193fcc42659d7e46ecd1884a228993441182"}}
+   :main-opts ["-m" "cognitect.test-runner"
+               "-d" "test"]}
+  :uberjar {:replace-deps {seancorfield/depstar {:mvn/version "2.0.165"}}
+            :exec-fn hf.depstar/uberjar
+            :exec-args {:aot true
+                        :jar "eb-deployment-test.jar"
+                        :main-class "posobin.eb-deployment-test"}}}}
