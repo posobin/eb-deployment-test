@@ -1,6 +1,10 @@
 (ns posobin.eb-deployment-test
-  (:require [ring.adapter.jetty :as jetty])
+  (:require
+    [ring.adapter.jetty :as jetty]
+    [cprop.core :refer [load-config]])
   (:gen-class))
+
+(def config (load-config))
 
 (defn greet
   "Callable entry point to the application."
@@ -15,4 +19,5 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& _args]
-  (jetty/run-jetty handler {:port 3000}))
+  (println "Serving on port" (config :port 3000))
+  (jetty/run-jetty handler {:port (config :port 3000)}))
