@@ -20,11 +20,11 @@ phases:
 artifacts:
   files:
     - eb-deployment-test.jar
-    - virtualenv
+    - 'virtualenv/**/*'
     - Procfile
     - run-prod.sh
 cache:
   paths:
     - '/root/.m2/**/*'
-    - '.cpcache'
-    - 'virtualenv'
+    - '.cpcache/**/*'
+    - 'virtualenv/**/*'
