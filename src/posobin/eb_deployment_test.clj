@@ -20,8 +20,8 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& _args]
-  (when (:prod config)
-    (py/initialize! :python-executable "virtualenv/bin/python3"))
+  #_(when (:prod config)
+      (py/initialize! :python-executable "virtualenv/bin/python3"))
   ((requiring-resolve 'libpython-clj.require/require-python) 'requests)
   (println (-> ((requiring-resolve 'requests/get) "https://ya.ru"
                 {"Accept-Encoding" "identity"})
