@@ -1,8 +1,18 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - apt-get update
+      - apt-get install -y python-venv
+  pre_build:
+    commands:
+      - python3 -m venv ./virtualenv
+      - . ./virtualenv/activate
+      - pip3 install -r requirements.txt
   build:
     commands:
+      - python3 -m trafilatura -h
       - clj -X:uberjar
 artifacts:
   files:
@@ -11,3 +21,4 @@ cache:
   paths:
     - '/root/.m2/**/*'
     - '.cpcache'
+    - 'virtualenv'
