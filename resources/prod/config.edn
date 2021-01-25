@@ -1,2 +1,3 @@
 {:dev false
+ :port 5000
  :prod true}

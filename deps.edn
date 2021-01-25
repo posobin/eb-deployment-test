@@ -4,8 +4,8 @@
         ring/ring-jetty-adapter {:mvn/version "1.8.2"}
         cprop/cprop {:mvn/version "0.1.17"}}
  :aliases
- {:run-m {:main-opts ["-m" "posobin.eb-deployment-test"]
-          :jvm-opts    ["-Dconf=dev-config.edn" ]}
+ {:run-m {:extra-paths ["resources/prod"]
+          :main-opts ["-m" "posobin.eb-deployment-test"]}
 
   :run-x {:jvm-opts    ["-Dconf=dev-config.edn" ]
           :extra-paths ["resources/dev"]
@@ -29,5 +29,6 @@
   {:replace-deps {seancorfield/depstar {:mvn/version "2.0.165"}}
    :exec-fn hf.depstar/uberjar
    :exec-args {:aot true
+               :aliases [:prod]
                :jar "eb-deployment-test.jar"
                :main-class "posobin.eb-deployment-test"}}}}
