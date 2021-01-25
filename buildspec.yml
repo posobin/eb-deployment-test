@@ -16,7 +16,6 @@ phases:
       - pip3 install -r requirements.txt
   build:
     commands:
-      - python3 -m trafilatura -h
       - clj -X:uberjar
 artifacts:
   files:
