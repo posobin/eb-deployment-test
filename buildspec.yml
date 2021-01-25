@@ -21,6 +21,7 @@ phases:
 artifacts:
   files:
     - eb-deployment-test.jar
+    - 'virtualenv'
 cache:
   paths:
     - '/root/.m2/**/*'
