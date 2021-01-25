@@ -1,1 +1,1 @@
-web: source ./virtualenv/bin/activate && java -jar eb-deployment-test.jar
+web: bash run-prod.sh
