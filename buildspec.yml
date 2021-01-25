@@ -12,7 +12,7 @@ phases:
   pre_build:
     commands:
       - python3 -m venv ./virtualenv
-      - . ./virtualenv/activate
+      - . ./virtualenv/bin/activate
       - pip3 install -r requirements.txt
   build:
     commands:
