@@ -7,3 +7,7 @@ phases:
 artifacts:
   files:
     - eb-deployment-test.jar
+cache:
+  paths:
+    - '/root/.m2/**/*'
+    - '.cpcache'
