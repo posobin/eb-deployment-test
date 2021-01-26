@@ -22,6 +22,8 @@ artifacts:
     - eb-deployment-test.jar
     - 'virtualenv/**/*'
     - Procfile
+    - requirements.txt
+    - prepare-prod.sh
     - run-prod.sh
 cache:
   paths:
