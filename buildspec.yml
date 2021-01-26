@@ -19,3 +19,7 @@ phases:
   post_build:
     commands:
       - docker push $CONTAINER_REPOSITORY_URL
+
+artifacts:
+  files:
+    - Dockerrun.aws.json
