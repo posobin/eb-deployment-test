@@ -7,4 +7,5 @@ set -e
 # amazon-linux-extras enable python3.8
 # yum install -y python3.8
 
-pip3.7 install -r requirements.txt
+yum install -y python38
+pip3 install -r requirements.txt
