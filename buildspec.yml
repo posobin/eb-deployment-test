@@ -4,23 +4,16 @@ phases:
   install:
     runtime-versions:
       java: corretto11
-      python: 3.x
     commands:
       - curl -O https://download.clojure.org/install/linux-install-1.10.1.763.sh
       - chmod +x linux-install-1.10.1.763.sh
       - ./linux-install-1.10.1.763.sh     
-  pre_build:
-    commands:
-      - python3 -m venv ./virtualenv
-      - . ./virtualenv/bin/activate
-      - pip3 install -r requirements.txt
   build:
     commands:
       - clojure -X:uberjar
 artifacts:
   files:
     - eb-deployment-test.jar
-    - 'virtualenv/**/*'
     - Procfile
     - requirements.txt
     - prepare-prod.sh
@@ -29,4 +22,3 @@ cache:
   paths:
     - '/root/.m2/**/*'
     - '.cpcache/**/*'
-    - 'virtualenv/**/*'
