@@ -15,7 +15,7 @@
 (defn handler [_req]
   {:status 200
    :headers {"Content-Type" "text/html"}
-   :body "Hello, world!"})
+   :body "Hello, World!"})
 
 (defn -main
   "I don't do a whole lot ... yet."
