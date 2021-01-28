@@ -38,6 +38,48 @@ resource "aws_iam_role" "build" {
 EOF
 }
 
+resource "aws_iam_role_policy" "codebuild_policy" {
+  name = "eb-deployment-test-codebuild-policy"
+  role = aws_iam_role.build.id
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetSecretValue"
+      ],
+      "Resource": [
+        "arn:aws:secretsmanager:us-east-1:946702831620:secret:dockerhub-UiWcA0*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetRepositoryPolicy",
+        "ecr:DescribeRepositories",
+        "ecr:ListImages",
+        "ecr:DescribeImages",
+        "ecr:BatchGetImage",
+        "ecr:ListTagsForResource",
+        "ecr:DescribeImageScanFindings",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload",
+        "ecr:PutImage"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_iam_role_policy" "beanstalk_policy" {
   name = "eb-deployment-test-beanstalk-policy"
   role = aws_iam_role.build.id

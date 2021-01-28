@@ -22,6 +22,18 @@ resource "aws_codebuild_project" "build" {
       name  = "S3_BUCKET"
       value = aws_s3_bucket.artifacts.bucket
     }
+
+    environment_variable {
+      name  = "dockerhub_username"
+      value = "dockerhub:username"
+      type  = "SECRETS_MANAGER"
+    }
+
+    environment_variable {
+      name  = "dockerhub_password"
+      value = "dockerhub:password"
+      type  = "SECRETS_MANAGER"
+    }
   }
 
   source {
