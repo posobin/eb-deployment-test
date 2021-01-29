@@ -21,7 +21,7 @@ phases:
   post_build:
     commands:
       - docker push $CONTAINER_REPOSITORY_URL
-      - printf '[{"name":"nginx-service","imageUri":"%s"}]' $CONTAINER_REPOSITORY_URL > imagedefinitions.json
+      - printf '[{"name":"nginx","imageUri":"%s"}]' $CONTAINER_REPOSITORY_URL:$TAG_NAME > imagedefinitions.json
 
 artifacts:
   files:
