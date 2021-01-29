@@ -21,7 +21,9 @@ phases:
   post_build:
     commands:
       - docker push $CONTAINER_REPOSITORY_URL
+      - printf '[{"name":"hello-eb-deployment","imageUri":"%s"}]' $CONTAINER_REPOSITORY_URL > imagedefinitions.json
 
 artifacts:
   files:
     - Dockerrun.aws.json
+    - imagedefinitions.json
