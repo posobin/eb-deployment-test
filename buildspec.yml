@@ -5,6 +5,7 @@ env:
     CONTAINER_REPOSITORY_URL: 946702831620.dkr.ecr.us-east-1.amazonaws.com/eb-deployment-test
     AWS_DEFAULT_REGION: us-east-1
     TAG_NAME: latest
+    COMPILE_TAG_NAME: compile-image
 
 phases:
   install:
@@ -14,13 +15,19 @@ phases:
     commands:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $CONTAINER_REPOSITORY_URL
       - docker login -u $dockerhub_username -p $dockerhub_password
+      # Caching multi-stage builds is taken from https://github.com/aws/aws-codebuild-docker-images/issues/26#issuecomment-386913125
+      - docker pull $CONTAINER_REPOSITORY_URL:$COMPILE_TAG_NAME || true
       - docker pull $CONTAINER_REPOSITORY_URL:$TAG_NAME || true
+
   build:
     commands:
-      - docker build --cache-from $CONTAINER_REPOSITORY_URL:$TAG_NAME --tag $CONTAINER_REPOSITORY_URL:$TAG_NAME .
+      - docker build --target compile-image --cache-from $CONTAINER_REPOSITORY_URL:$COMPILE_TAG_NAME --tag $CONTAINER_REPOSITORY_URL:$COMPILE_TAG_NAME .
+      - docker build --cache-from $CONTAINER_REPOSITORY_URL:$TAG_NAME --cache-from $CONTAINER_REPOSITORY_URL:$COMPILE_TAG_NAME --tag $CONTAINER_REPOSITORY_URL:$TAG_NAME .
+
   post_build:
     commands:
-      - docker push $CONTAINER_REPOSITORY_URL
+      - docker push $CONTAINER_REPOSITORY_URL:$COMPILE_TAG_NAME
+      - docker push $CONTAINER_REPOSITORY_URL:$TAG_NAME
       - printf '[{"name":"nginx","imageUri":"%s"}]' $CONTAINER_REPOSITORY_URL:$TAG_NAME > imagedefinitions.json
 
 artifacts:
