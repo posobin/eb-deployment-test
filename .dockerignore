@@ -16,3 +16,4 @@
 !.elasticbeanstalk/*.global.yml
 
 Dockerfile
+deployment/*

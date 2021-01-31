@@ -49,7 +49,7 @@ resource "aws_codepipeline" "pipeline" {
     name = "Deploy"
 
     action {
-      name = "Deploy"
+      name = "eb-deploy"
       category = "Deploy"
       owner = "AWS"
       provider = "ElasticBeanstalk"
@@ -59,6 +59,20 @@ resource "aws_codepipeline" "pipeline" {
       configuration = {
         ApplicationName = aws_elastic_beanstalk_application.app.name
         EnvironmentName = aws_elastic_beanstalk_environment.production.name
+      }
+    }
+
+    action {
+      name = "ecs-deploy"
+      category = "Deploy"
+      owner = "AWS"
+      provider = "ECS"
+      input_artifacts = ["artifact"]
+      version = "1"
+
+      configuration = {
+        ClusterName = aws_ecs_cluster.worker.name
+        ServiceName = aws_ecs_service.worker.name
       }
     }
   }

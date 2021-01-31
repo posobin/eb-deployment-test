@@ -9,21 +9,24 @@ resource "aws_elastic_beanstalk_environment" "production" {
   solution_stack_name = "64bit Amazon Linux 2 v3.2.3 running Docker"
 
   setting {
+    name = "Protocol"
     namespace = "aws:elbv2:listener:80"
-    name = "ListenerEnabled"
-    value = "true"
+    value = "HTTP"
+    resource = ""
   }
 
   setting {
+    name = "ListenerEnabled"
     namespace = "aws:elbv2:listener:80"
-    name = "Protocol"
-    value = "HTTP"
+    value = true
+    resource = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:environment"
     name = "LoadBalancerType"
     value = "application"
+    resource = ""
   }
 
   # Set environment variable
@@ -37,18 +40,21 @@ resource "aws_elastic_beanstalk_environment" "production" {
     namespace = "aws:autoscaling:launchconfiguration"
     name = "IamInstanceProfile"
     value = aws_iam_instance_profile.build.name
+    resource = ""
   }
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name = "InstanceType"
     value = "t2.small"
+    resource = ""
   }
 
   setting {
     namespace = "aws:autoscaling:asg"
     name = "MinSize"
     value = "1"
+    resource = ""
   }
 
   # Stream logs from the instance to cloudwatch
@@ -56,6 +62,7 @@ resource "aws_elastic_beanstalk_environment" "production" {
     namespace = "aws:elasticbeanstalk:cloudwatch:logs"
     name = "StreamLogs"
     value = true
+    resource = ""
   }
 }
 
