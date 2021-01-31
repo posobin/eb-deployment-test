@@ -29,8 +29,10 @@ phases:
       - docker push $CONTAINER_REPOSITORY_URL:$COMPILE_TAG_NAME
       - docker push $CONTAINER_REPOSITORY_URL:$TAG_NAME
       - printf '[{"name":"nginx","imageUri":"%s"}]' $CONTAINER_REPOSITORY_URL:$TAG_NAME > imagedefinitions.json
+      - printf '[{"name":"eb-deployment-worker-container","imageUri":"%s"}]' $CONTAINER_REPOSITORY_URL:$TAG_NAME > ecs-imagedefinitions.json
 
 artifacts:
   files:
     - Dockerrun.aws.json
     - imagedefinitions.json
+    - ecs-imagedefinitions.json
