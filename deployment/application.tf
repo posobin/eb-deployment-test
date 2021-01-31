@@ -50,6 +50,13 @@ resource "aws_elastic_beanstalk_environment" "production" {
     name = "MinSize"
     value = "1"
   }
+
+  # Stream logs from the instance to cloudwatch
+  setting {
+    namespace = "aws:elasticbeanstalk:cloudwatch:logs"
+    name = "StreamLogs"
+    value = true
+  }
 }
 
 output "url" {

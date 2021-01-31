@@ -80,6 +80,50 @@ resource "aws_iam_role_policy" "codebuild_policy" {
 POLICY
 }
 
+resource "aws_iam_role" "fargate" {
+  name = "eb-deployment-worker-role"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "fargate_policy" {
+  name = "eb-deployment-fargate-policy"
+  role = aws_iam_role.fargate.id
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CloudWatchLogsAccess",
+      "Action": [
+        "logs:PutLogEvents",
+        "logs:CreateLogStream",
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:logs:*:*:log-group:/ecs/eb-deployment-fargate"
+      ]
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_iam_role_policy" "beanstalk_policy" {
   name = "eb-deployment-test-beanstalk-policy"
   role = aws_iam_role.build.id
@@ -114,7 +158,9 @@ resource "aws_iam_role_policy" "beanstalk_policy" {
       "Sid": "CloudWatchLogsAccess",
       "Action": [
         "logs:PutLogEvents",
-        "logs:CreateLogStream"
+        "logs:CreateLogStream",
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams"
       ],
       "Effect": "Allow",
       "Resource": [
